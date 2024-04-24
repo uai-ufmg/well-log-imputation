@@ -129,6 +129,7 @@ In addition to your method definitions, it is essential that the class of your m
  - an indicating mask with values equal to 1 where the artificial missing data was added
  
  The `fit` function trains your model with the passed data
+ 
 2. `predict(...)` function: it receives a test_set (similar to the train_set above) and returns a dictionary with the test_set with imputed values
 
 See `models/shallow.py` or `models/autoencoder.py` for examples of implementations of these two functions.
