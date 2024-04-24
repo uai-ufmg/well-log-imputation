@@ -116,7 +116,7 @@ class UNet(BaseNNImputer):
 
     def _train_model(self, training_loader: DataLoader, val_loader: DataLoader) -> None:
         '''
-        Training process for the autoencoder model
+        Training process for the unet model
         
         @param training_loader: pytorch dataloader with the training data
         @param val_loader: pytorch dataloader with the validation data. Can be None in this case no validation metrics are computated
