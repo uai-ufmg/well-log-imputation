@@ -2,10 +2,10 @@
 
 > Repository with the code for conducting the experiments of the paper ** Imputation in Well Log Data: A Benchmark **
 
-Imputation of well log data is a common task in the field. However a quick review of literature reveals a lack of padronization when evaluating methods for problem.
+Imputation of well log data is a common task in the field. However, a quick review of the literature reveals a lack of padronization when evaluating methods for the problem.
 The goal of the benchmark is to introduce a standard evaluation protocol to any imputation method for well log data. A small summary of the benchmark can be seen [here](#).
 
-The code in mainly built using the [PyTorch](https://pytorch.org/) deep learning library and the [PyPOTS](https://pypots.com/) module.
+The code is mainly built using the [PyTorch](https://pytorch.org/) deep learning library and the [PyPOTS](https://pypots.com/) module.
 
 ### Requirements
 The exact versions of PyTorch and PyPOTS used were:
@@ -19,10 +19,10 @@ Newer versions of both libraries will probably also work.
 ## Repository content and organization
 
 - The `main.py` file is the principal script and is used to evaluate a method in a given dataset
-- The `cfg.py` file contains all the arguments that the `main.py` script acepts. A complete list of arguments is found [here](#key-parameters).
+- The `cfg.py` file contains all the arguments that the `main.py` script accepts. A complete list of arguments is found [here](#key-parameters).
 - `analise.ipynb` a jupyter notebook containing some visualization of the results, `format_metric.ipynb` a notebook to collect and format the results from training logs into a `.csv` file
 - `data` directory contains modules related to data handling and manipulation: 
-  * `data/datasets.py` contain classes for preparing data for some of imputation methods
+  * `data/datasets.py` contains classes for preparing data for some of the imputation methods
   * `data/missing.py` contains methods to generate pseudo masks of missing data
 - `models` directory contains modules related to the implementation of some imputation methods (following the design pattern of PyPOTS)
 - `preprocessing` directory contains methods related to the preprocessing of the datasets required to run the benchmark experiments. See the [README](/preprocessing) of the preprocessing script for its arguments.
@@ -30,11 +30,11 @@ Newer versions of both libraries will probably also work.
 
 ## Getting Started
 
-> IMPORTANT: Before evaluating a method using a well log data, you first need to preprocess the dataset, dividing into folds and slice. See the `preprocessing` [README](/preprocessing) for details in how to preprocess the data.
+> IMPORTANT: Before evaluating a method using well log data, you first need to preprocess the dataset, dividing it into folds and slices. See the `preprocessing` [README](/preprocessing) for details on how to preprocess the data.
 
 ### Dataset folder structure
 
-After preprocessing your dataset fold structure should look as below:
+After preprocessing your dataset, the fold structure should look as below:
 
 ``` bash
 dataset_root
@@ -52,18 +52,18 @@ dataset_root
 ├── dataset_name_fold_k_well_log_sliced_train.npy          # sliced logs of the training partition of fold k in .npy format
 └── dataset_name_fold_k_well_log_sliced_val.npy            # sliced logs of the validation partition of fold k in .npy format
 ```
-*Here `k` represents the total number of folds you selected to divide the dataset. In our benchmark we used `k=5`.*
+*Here `k` represents the total number of folds you selected to divide the dataset. In our benchmark, we used `k=5`.*
 
 ## Examples of Use
 
-Assume you have preprocessed the Geolink dataset, using 5 folds, 4 logs (GR, DTC, RHOB, NPHI) and slices of length 256. 
-To test some imputation method on the default experiments of the Benchmark you could run in terminal:
+Assume you have preprocessed the Geolink dataset, using 5 folds, 4 logs (GR, DTC, RHOB, NPHI), and slices of length 256. 
+To test some imputation methods on the default experiments of the Benchmark you could run in the terminal:
 ```bash
 # Evaluates the SAITS model on the default experiments of the benchmark in the Geolink dataset
 python main.py --dataset_name geolink --dataset_folder geolink_dataset --fold 5 --logs GR DTC RHOB NPHI --model saits
 ```
 
-To test some imputation method on specific missing patterns you could run in terminal:
+To test some imputation method on specific missing patterns you could run in the terminal:
 ```bash
 # Evaluates the SAITS model in the Geolink dataset using the Block missing pattern of length 150
 python main.py --dataset_name geolink --dataset_folder geolink_dataset --fold 5 --logs GR DTC RHOB NPHI --model saits --missing_pattern block --b_size 150
@@ -81,15 +81,15 @@ python main.py --dataset_name geolink --dataset_folder geolink_dataset --fold 5 
 | `--logs`            |  ['GR', 'DTC', 'RHOB', 'NPHI'] | List of the logs present in the processed dataset <br /> (the order in the list is assumed as the same order of logs in  the stored processed slices)                                              |
 | `--slice_len`       |                            256 | Length of the sliced sequences of the processed dataset                                                                                                                                     |
 | `--epochs`          |                           1000 | Number of training epochs for deep methods                                                                                                                                                  |
-| `--patience`        |                           1000 | Number of patience epochs. If validation score does not improve in this number of epochs, training is aborted                                                                               |
+| `--patience`        |                           1000 | Number of patience epochs. If the validation score does not improve in this number of epochs, training is aborted                                                                               |
 | `--batch_size`      |                             32 | Size of training batch                                                                                                                                                                      |
 | `--missing_pattern` | ['single', 'block', 'profile'] | List of missing patterns to be tested. <br />  - Single: independently selects random samples <br /> - Block: randomly select contiguous block of samples <br /> - Profile: mask an entire log of a sequence  |
-| `--n_points`        |                            [1] | List of possible individual samples to be masked. Defaults to 1, larger intergers implies multiple random indices independently selected per sequence to be masked                          |
-| `--blocks_size`     |                      [20, 100] | List of possible block lengths to be masked. Each value is creates a new experiment                                                                                                         |
-| `--profiles`        |                       ['RAND'] | List of logs to be masked, if 'profile' is one of the tested missing patterns (when 'RAND', each test sequence have a random log masked)                                                    |
+| `--n_points`        |                            [1] | List of possible individual samples to be masked. Defaults to 1, larger integers imply multiple random indices independently selected per sequence to be masked                          |
+| `--blocks_size`     |                      [20, 100] | List of possible block lengths to be masked. Each value creates a new experiment                                                                                                         |
+| `--profiles`        |                       ['RAND'] | List of logs to be masked, if 'profile' is one of the tested missing patterns (when 'RAND', each test sequence has a random log masked)                                                    |
 | `--model`           |                        'saits' | Name of the model to be evaluated <br /> (options: 'locf', 'rf', 'xgboost', 'svm', 'saits', 'transformer','brits', 'mrnn','unet', 'ae')                                                            |
 | `--lr`              |                           1e-3 | Learning rate used in the optimizer                                                                                                                                                         |
-| `--optimizer`       |                         'adam' | Name of the optimizer used in training (either 'adam' or 'adamw'                                                                                                                            |
+| `--optimizer`       |                         'adam' | Name of the optimizer used in training (either 'adam' or 'adamw')                                                                                                                            |
 
 ### Available models
 - 'locf': Last Observation Carry Forward
@@ -121,10 +121,10 @@ The three public datasets can be downloaded already processed as it was used in 
 To include a new imputation method in this base three steps have to be performed.
 
 #### First
-Create a implementation file `mymodel.py` in the models directory, that will include everything you need to define your imputation method.
+Create an implementation file `mymodel.py` in the models directory, that will include everything you need to define your imputation method.
 In addition to your method definitions, it is essential that the class of your method implement two functions:
 1. `fit(...)` function: it receives a train_set (a dictionary of strings to numpy arrays) with:
- - the training sequences with articial missing values added
+ - the training sequences with artificial missing values added
  - the original training sequences
  - an indicating mask with values equal to 1 where the artificial missing data was added
  
@@ -135,12 +135,12 @@ In addition to your method definitions, it is essential that the class of your m
 See `models/shallow.py` or `models/autoencoder.py` for examples of implementations of these two functions.
 
 #### Second
-You have to implement and include an `instantiate_MYMODEL()` function in the `models/__init__.py` in addition to import your model implementation file in that same file. In `models/__init__.py` you can found the exact parameters passed to your function with examples of implementation for the available methods. It is in this `instantiate_MYMODEL()` function that hyperparameters of your method have to be setted.
+You have to implement and include an `instantiate_MYMODEL()` function in the `models/__init__.py` in addition to importing your model implementation file in that same file. In `models/__init__.py` you can find the exact parameters passed to your function with examples of implementation for the available methods. It is in this `instantiate_MYMODEL()` function that the hyperparameters of your method have to be set.
 
 #### Lastly
 In the `cfg.py`, you have to add your model as an option in argument `--model`
 
-With these three steps your method is ready to be tested using this code implementation and you should be able to use:
+With these three steps, your method is ready to be tested using this code implementation and you should be able to execute in the terminal:
 ```bash
 # Evaluates mymodel on the default experiments of the benchmark in the Geolink dataset
 python main.py --dataset_name geolink --dataset_folder geolink_dataset --fold 5 --logs GR DTC RHOB NPHI --model mymodel
