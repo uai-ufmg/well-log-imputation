@@ -60,13 +60,13 @@ Assume you have preprocessed the Geolink dataset, using 5 folds, 4 logs (GR, DTC
 To test some imputation methods on the default experiments of the Benchmark you could run in the terminal:
 ```bash
 # Evaluates the SAITS model on the default experiments of the benchmark in the Geolink dataset
-python main.py --dataset_name geolink --dataset_folder geolink_dataset --fold 5 --logs GR DTC RHOB NPHI --model saits
+python main.py --dataset_name geolink --dataset_folder geolink_dataset --n_folds 5 --logs GR DTC RHOB NPHI --model saits
 ```
 
 To test some imputation method on specific missing patterns you could run in the terminal:
 ```bash
 # Evaluates the SAITS model in the Geolink dataset using the Block missing pattern of length 150
-python main.py --dataset_name geolink --dataset_folder geolink_dataset --fold 5 --logs GR DTC RHOB NPHI --model saits --missing_pattern block --b_size 150
+python main.py --dataset_name geolink --dataset_folder geolink_dataset --n_folds 5 --logs GR DTC RHOB NPHI --model saits --missing_pattern block --b_size 150
 ```
 
 ### Key Parameters:
@@ -143,6 +143,6 @@ In the `cfg.py`, you have to add your model as an option in argument `--model`
 With these three steps, your method is ready to be tested using this code implementation and you should be able to execute in the terminal:
 ```bash
 # Evaluates mymodel on the default experiments of the benchmark in the Geolink dataset
-python main.py --dataset_name geolink --dataset_folder geolink_dataset --fold 5 --logs GR DTC RHOB NPHI --model mymodel
+python main.py --dataset_name geolink --dataset_folder geolink_dataset --n_folds 5 --logs GR DTC RHOB NPHI --model mymodel
 ```
 to evaluate your method
