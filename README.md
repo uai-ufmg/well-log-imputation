@@ -1,6 +1,6 @@
 # Imputation in Well Log Data: A Benchmark
 
-> Repository with the code for conducting the experiments of the paper ** Imputation in Well Log Data: A Benchmark **
+> Repository with the code for conducting the experiments of the paper ** [Imputation in Well Log Data: A Benchmark](https://www.sciencedirect.com/science/article/pii/S0098300424002723) **
 
 Imputation of well log data is a common task in the field. However, a quick review of the literature reveals a lack of padronization when evaluating methods for the problem.
 The goal of the benchmark is to introduce a standard evaluation protocol to any imputation method for well log data. A small summary of the benchmark can be seen [here](#).
@@ -146,3 +146,21 @@ With these three steps, your method is ready to be tested using this code implem
 python main.py --dataset_name geolink --dataset_folder geolink_dataset --n_folds 5 --logs GR DTC RHOB NPHI --model mymodel
 ```
 to evaluate your method
+
+---
+# Cite us:
+```
+@article{gama2025imputation,
+ title = {Imputation in well log data: A benchmark for machine learning methods},
+ journal = {Computers & Geosciences},
+ volume = {196},
+ pages = {105789},
+ year = {2025},
+ issn = {0098-3004},
+ doi = {https://doi.org/10.1016/j.cageo.2024.105789},
+ url = {https://www.sciencedirect.com/science/article/pii/S0098300424002723},
+ author = {Pedro H.T. Gama and Jackson Faria and Jessica Sena and Francisco Neves and Vinícius R. Riffel and Lucas Perez and André Korenchendler and Matheus C.A. Sobreira and Alexei M.C. Machado},
+ keywords = {Well log data, Imputation, Machine learning, Benchmark},
+ abstract = {Well log data are an important source of information about the geological patterns along the wellbore but may present missing values due to sensor failure, wellbore irregularities or the cost of acquisition. As a consequence, incomplete log sequences may impact the performance of machine learning (ML) models for classification or prediction. Although several approaches for this problem have been proposed in the literature, the lack of consistent evaluation protocols hinders the comparison of different solutions. This paper aims at bridging this gap by proposing a robust benchmark for comparing imputation ML methods. It contributes to establish a standardized experimental protocol that could be used by the petroleum industry in the development of new methodologies for this purpose. It differs from previous works that have been based on different datasets and metrics that prevent an unbiased comparison of results. Eight imputation methods were investigated: Autoencoders (AE), Bidirectional Recurrent Neural Network for Time Series Imputation, Last Observation Carry Forward (LOCF), Random Forests, Self Attention for Imputation of Time Series (SAITS), Transformers, UNet, and XGBoost. The Geolink, Taranaki and Teapot datasets were used to contemplate data from different locations, from which sequences of measurements were deleted and further imputed by the selected ML methods. The Mean Absolute Error, Mean Squared Error, Root Mean Squared Error, Pearson Correlation Coefficient and the Determination Coefficient were used for performance assessment in a set of 480 experiments. The results demonstrated that simple methods as the LOCF and the AE provided competitive imputation results, although the overall best model was SAITS. This reveals that self-attention models are a promising trend for imputation techniques. The choice for the LOCF, AE, SAITS, UNet, and XGBoost to compose the proposed benchmark was corroborated by subsequent statistical analyses, showing that it can be considered a compromise between simplicity, unbiasedness, variety and meaningfulness.}
+}
+```
